@@ -5,6 +5,9 @@
  */
 package mangkad;
 
+import java.sql.Connection;
+import mangkad.utils.SQLiteJDBCDriverConnection;
+
 /**
  *
  * @author user
@@ -20,6 +23,7 @@ public class Mangkad {
             JFrameLogin loginWindow = new JFrameLogin();
             loginWindow.setLocationRelativeTo(null);
             loginWindow.show();
+            Connection conn = new SQLiteJDBCDriverConnection("sqlite.db").getConnection();
         }
     }
     
