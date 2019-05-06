@@ -22,7 +22,7 @@ public class Mangkad {
         if(true) {
             JFrameLogin loginWindow = new JFrameLogin();
             loginWindow.setLocationRelativeTo(null);
-            loginWindow.show();
+            loginWindow.setVisible(true);
             Connection conn = new SQLiteJDBCDriverConnection("sqlite.db").getConnection();
         }
     }
