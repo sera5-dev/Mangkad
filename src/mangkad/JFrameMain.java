@@ -9,7 +9,7 @@ package mangkad;
  *
  * @author user
  */
-public class JFrameMain extends javax.swing.JFrame {
+public class JFrameMain extends JFrameBase {
 
     /**
      * Creates new form JFrameMain

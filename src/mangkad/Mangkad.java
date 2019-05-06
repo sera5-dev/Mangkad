@@ -18,6 +18,8 @@ public class Mangkad {
         // TODO code application logic here
         if(true) {
             JFrameLogin loginWindow = new JFrameLogin();
+            loginWindow.setLocationRelativeTo(null);
+            loginWindow.show();
         }
     }
     
