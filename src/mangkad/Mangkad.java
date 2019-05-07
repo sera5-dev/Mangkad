@@ -5,6 +5,8 @@
  */
 package mangkad;
 
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.sql.Connection;
 import mangkad.utils.SQLiteJDBCDriverConnection;
 
@@ -22,9 +24,19 @@ public class Mangkad {
         if(true) {
             JFrameLogin loginWindow = new JFrameLogin();
             loginWindow.setLocationRelativeTo(null);
+            
+            loginWindow.btnLogin.addActionListener((ActionEvent ae) -> {
+               loginWindow.dispose();
+               gotoMain();
+            });
             loginWindow.setVisible(true);
-            Connection conn = new SQLiteJDBCDriverConnection("sqlite.db").getConnection();
         }
+    }
+    
+    public static void gotoMain() {
+        JFrameMain jMain = new JFrameMain();
+        jMain.setLocationRelativeTo(null);
+        jMain.setVisible(true);
     }
     
 }

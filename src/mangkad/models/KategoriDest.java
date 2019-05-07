@@ -3,16 +3,12 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package mangkad;
-
+package mangkad.models;
 
 /**
  *
  * @author user
  */
-public class JFrameBase extends javax.swing.JFrame {
+public class KategoriDest {
     
-    public JFrameBase() {
-        
-    }
 }
