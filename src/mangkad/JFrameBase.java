@@ -13,6 +13,6 @@ package mangkad;
 public class JFrameBase extends javax.swing.JFrame {
     
     public JFrameBase() {
-        
+        setResizable(false);
     }
 }

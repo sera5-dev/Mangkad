@@ -10,5 +10,27 @@ package mangkad.models;
  * @author user
  */
 public class KategoriDest {
+    int kategoriID;
+    String kategoriName;
     
+    public KategoriDest(int id, String name) {
+        this.kategoriID = id;
+        this.kategoriName = name;
+    }
+    
+    public void setID(int id) {
+        this.kategoriID = id;
+    }
+    
+    public void setName(String name) {
+        this.kategoriName = name;
+    }
+    
+    public int getID() {
+        return this.kategoriID;
+    }
+    
+    public String getName() {
+        return this.kategoriName;
+    }
 }
