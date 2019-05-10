@@ -85,6 +85,8 @@ public class Mangkad {
             }
         });
         
+        
+        
         listKategori.setModel(kategori);
         listDest.setModel(tempatWisata);
         
