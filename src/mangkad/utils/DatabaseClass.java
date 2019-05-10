@@ -6,11 +6,14 @@
 package mangkad.utils;
 
 import java.sql.Connection;
-import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.DefaultListModel;
+import mangkad.models.DestWisata;
+import mangkad.models.KategoriDest;
 
 
 /**
@@ -46,6 +49,8 @@ public class DatabaseClass {
                 + "KATEGORI_ID INTEGER NOT NULL, "
                 + "NAMA_DEST VARCHAR(20) NOT NULL, "
                 + "DESKRIPSI_KATEGORI TEXT, "
+                + "LATITUDE REAL NOT NULL, "
+                + "LONGITUDE REAL NOT NULL, "
                 + "TGL_DEST_BUAT DATE NOT NULL, " 
                 + "FOREIGN KEY (KATEGORI_ID) REFERENCES KATEGORI(KATEGORI_ID)"
                 + ");");
@@ -74,12 +79,39 @@ public class DatabaseClass {
         } catch (SQLException ex) {
             Logger.getLogger(DatabaseClass.class.getName()).log(Level.SEVERE, null, ex);
         } finally {
-            
+           
         }
-
     }
     
-    public static void isiUser() {
+    public DefaultListModel<KategoriDest> getKategori(){
+        DefaultListModel<KategoriDest> result = new DefaultListModel<>();
+        ResultSet rs = null;
+        
+         try {
+            rs = con1.createStatement().executeQuery("SELECT * FROM KATEGORI");
+            while(rs.next()) {
+                result.addElement(new KategoriDest(rs.getInt("KATEGORI_ID"),rs.getString("NAMA_KATEGORI")));
+            }
+         } catch(SQLException e) {
+             System.out.println(e.getSQLState());
+         }
          
+         return result;
+    }
+    
+    public ArrayList<DestWisata> getDestWisata(int idx) {
+        ArrayList<DestWisata> result = new ArrayList<>();
+        ResultSet rs = null;
+        
+         try {
+            rs = con1.createStatement().executeQuery("SELECT * FROM KATEGORI");
+            while(rs.next()) {
+                
+            }
+         } catch(SQLException e) {
+             System.out.println(e.getSQLState());
+         }
+         
+         return result;
     }
 }

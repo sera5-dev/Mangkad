@@ -33,4 +33,9 @@ public class KategoriDest {
     public String getName() {
         return this.kategoriName;
     }
+    
+    @Override
+    public String toString() {
+        return getName();
+    }
 }
