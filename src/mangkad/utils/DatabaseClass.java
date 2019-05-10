@@ -8,6 +8,7 @@ package mangkad.utils;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -24,56 +25,61 @@ public class DatabaseClass {
     }
     
     public void firstInit() {
-        String createTableSQL = "CREATE TABLE IF NOT EXISTS USER("
-                + "USER_ID NUMBER(5) NOT NULL, "
+        ArrayList<String> createTable = new ArrayList<>();
+        
+        createTable.add("CREATE TABLE IF NOT EXISTS USER("
+                + "USER_ID INTEGER PRIMARY KEY, "
                 + "USERNAME VARCHAR(20) NOT NULL, "
                 + "PASSWORD VARCHAR(20) NOT NULL, "
-                + "CREATED_DATE DATE NOT NULL, " + "PRIMARY KEY (USER_ID) "
-                + ");";
+                + "CREATED_DATE DATE NOT NULL "
+                + ");");
         
-        createTableSQL += "CREATE TABLE IF NOT EXISTS KATEGORI("
-                + "KATEGORI_ID NUMBER(5) NOT NULL, "
+        createTable.add("CREATE TABLE IF NOT EXISTS KATEGORI("
+                + "KATEGORI_ID INTEGER PRIMARY KEY, "
                 + "NAMA_KATEGORI VARCHAR(20) NOT NULL, "
                 + "DESKRIPSI_KATEGORI TEXT, "
-                + "TGL_KAT_BUAT DATE NOT NULL, " + "PRIMARY KEY (KATEGORI_ID) "
-                + ");";
+                + "TGL_KAT_BUAT DATE NOT NULL "
+                + ");");
         
-        createTableSQL += "CREATE TABLE IF NOT EXISTS DEST_WISATA("
-                + "DEST_ID NUMBER(5) NOT NULL, "
-                + "KATEGORI_ID NUMBER(5) NOT NULL, "
+        createTable.add("CREATE TABLE IF NOT EXISTS DEST_WISATA("
+                + "DEST_ID INTEGER PRIMARY KEY, "
+                + "KATEGORI_ID INTEGER NOT NULL, "
                 + "NAMA_DEST VARCHAR(20) NOT NULL, "
                 + "DESKRIPSI_KATEGORI TEXT, "
                 + "TGL_DEST_BUAT DATE NOT NULL, " 
-                + "PRIMARY KEY (DEST_ID), "
                 + "FOREIGN KEY (KATEGORI_ID) REFERENCES KATEGORI(KATEGORI_ID)"
-                + ");";
+                + ");");
         
-        createTableSQL += "CREATE TABLE IF NOT EXISTS REVIEW_DEST_WISATA("
-                + "REVIEW_ID NUMBER(5) NOT NULL, "
-                + "DEST_ID NUMBER(5) NOT NULL, "
+        createTable.add("CREATE TABLE IF NOT EXISTS REVIEW_DEST_WISATA("
+                + "REVIEW_ID INTEGER PRIMARY KEY, "
+                + "DEST_ID INTEGER NOT NULL, "
                 + "TGL_REVIEW_BUAT DATE NOT NULL, " 
-                + "PRIMARY KEY (REVIEW_ID), "
                 + "FOREIGN KEY (DEST_ID) REFERENCES DEST_WISATA(DEST_ID)"
-                + ");";
+                + ");");
         
-        createTableSQL += "CREATE TABLE IF NOT EXISTS RENCANA_WISATA("
-                + "PLAIN_ID NUMBER(5) NOT NULL, "
-                + "DEST_ID NUMBER(5) NOT NULL, "
-                + "USER_ID NUMBER(5) NOT NULL, " 
+        createTable.add("CREATE TABLE IF NOT EXISTS PLAN_WISATA("
+                + "PLAN_ID INTEGER PRIMARY KEY, "
+                + "DEST_ID INTEGER NOT NULL, "
+                + "USER_ID INTEGER NOT NULL, " 
                 + "TGL_KUNJUNGAN DATE NOT NULL, " 
                 + "TGL_RENCANA_BUAT DATE NOT NULL, " 
-                + "PRIMARY KEY (PLAN_ID), "
                 + "FOREIGN KEY (DEST_ID) REFERENCES DEST_WISATA(DEST_ID),"
                 + "FOREIGN KEY (USER_ID) REFERENCES USER(USER_ID)"
-                + ");";
+                + ");");
         
         try {
-            con1.prepareStatement(createTableSQL).executeUpdate();
+            for(String a: createTable) {
+                con1.prepareStatement(a).execute();
+            }
         } catch (SQLException ex) {
             Logger.getLogger(DatabaseClass.class.getName()).log(Level.SEVERE, null, ex);
         } finally {
             
         }
 
+    }
+    
+    public static void isiUser() {
+         
     }
 }
