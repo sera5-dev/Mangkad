@@ -13,6 +13,8 @@ import java.awt.GridBagLayout;
 import java.awt.Point;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
@@ -56,6 +58,14 @@ public class Mangkad {
         if(true) {
             JFrameLogin loginWindow = new JFrameLogin();
             loginWindow.setLocationRelativeTo(null);
+            
+            loginWindow.btnViewPasword.addItemListener((ItemEvent ev) -> {
+                if(ev.getStateChange()==ItemEvent.SELECTED){
+                    loginWindow.txtPassword.setEchoChar((char) 0);
+                } else if(ev.getStateChange()==ItemEvent.DESELECTED){
+                    loginWindow.txtPassword.setEchoChar('*');
+                }
+            });
             
             loginWindow.btnBrowseOnly.addActionListener((ActionEvent ae) -> {
                 int dialogResult = JOptionPane.showConfirmDialog (loginWindow, 
