@@ -38,11 +38,33 @@ public class JDialogDetails extends javax.swing.JDialog {
         jSeparator1 = new javax.swing.JSeparator();
         lblDetails = new javax.swing.JLabel();
         jSeparator2 = new javax.swing.JSeparator();
+        btnPlan = new javax.swing.JButton();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        txtReview = new javax.swing.JTextArea();
+        btnReview = new javax.swing.JButton();
+        btnViewLocation = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
         lblDetails.setFont(new java.awt.Font("Roboto", 0, 24)); // NOI18N
         lblDetails.setText("jLabel1");
+
+        btnPlan.setText("Rencanakan Perjalanan");
+        btnPlan.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnPlanActionPerformed(evt);
+            }
+        });
+
+        txtReview.setEditable(false);
+        txtReview.setColumns(20);
+        txtReview.setRows(5);
+        txtReview.setText("Tidak ada tinjauan untuk tempat ini.");
+        jScrollPane1.setViewportView(txtReview);
+
+        btnReview.setText("Tinjau Tempat Ini");
+
+        btnViewLocation.setText("Lihat Lokasi");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -52,7 +74,14 @@ public class JDialogDetails extends javax.swing.JDialog {
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(lblDetails, javax.swing.GroupLayout.DEFAULT_SIZE, 542, Short.MAX_VALUE)
-                    .addComponent(jSeparator2))
+                    .addComponent(jSeparator2)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(btnViewLocation)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(btnPlan)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(btnReview))
+                    .addComponent(jScrollPane1))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -62,16 +91,32 @@ public class JDialogDetails extends javax.swing.JDialog {
                 .addComponent(lblDetails)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jSeparator2, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(309, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 249, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btnPlan)
+                    .addComponent(btnReview)
+                    .addComponent(btnViewLocation))
+                .addContainerGap())
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private void btnPlanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPlanActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnPlanActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    public javax.swing.JButton btnPlan;
+    public javax.swing.JButton btnReview;
+    public javax.swing.JButton btnViewLocation;
+    private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JSeparator jSeparator2;
     public javax.swing.JLabel lblDetails;
+    public javax.swing.JTextArea txtReview;
     // End of variables declaration//GEN-END:variables
 }

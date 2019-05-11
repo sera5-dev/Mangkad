@@ -6,21 +6,26 @@
 package mangkad;
 
 import java.awt.Color;
+import java.awt.Cursor;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.GridBagLayout;
 import java.awt.Point;
 import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.util.ArrayList;
 import javax.swing.DefaultListModel;
+import javax.swing.JButton;
+import javax.swing.JDialog;
 import javax.swing.JEditorPane;
 import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
+import javax.swing.JTextArea;
 import javax.swing.JViewport;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
@@ -29,26 +34,50 @@ import javax.swing.event.TableModelListener;
 import javax.swing.table.DefaultTableModel;
 import mangkad.models.DestWisata;
 import mangkad.models.KategoriDest;
+import mangkad.utils.BCryptClass;
 import mangkad.utils.DatabaseClass;
+import mangkad.utils.User;
 
 /**
  *
  * @author user
  */
 public class Mangkad {
+    
+    static User usr;
+    static DatabaseClass dc;
 
     /**
      * @param args the command line arguments
      */
     public static void main(String[] args) {
         // TODO code application logic here
+        dc = new DatabaseClass("mangkad.db");
         if(true) {
             JFrameLogin loginWindow = new JFrameLogin();
             loginWindow.setLocationRelativeTo(null);
             
+            loginWindow.btnBrowseOnly.addActionListener((ActionEvent ae) -> {
+                int dialogResult = JOptionPane.showConfirmDialog (loginWindow, 
+                        "Anda tidak dapat membuat rencana perjalanan atau meninjau tempat wisata ini.\n"
+                                + "Yakin untuk melanjutkan?",
+                        "Konfirmasi",
+                        JOptionPane.YES_NO_OPTION);
+                
+                if(dialogResult == JOptionPane.YES_OPTION){
+                    loginWindow.dispose();
+                    gotoMain();
+                }
+            });
+            
             loginWindow.btnLogin.addActionListener((ActionEvent ae) -> {
-               loginWindow.dispose();
-               gotoMain();
+                usr = dc.login(loginWindow.txtUsername.getText(), loginWindow.txtPassword.getText());
+                if(usr!=null) {
+                    loginWindow.dispose();
+                    gotoMain();
+                } else {
+                    JOptionPane.showMessageDialog(loginWindow, "Tidak dapat login.\nPastikan username atau password benar.");
+                }
             });
             
             loginWindow.setVisible(true);
@@ -57,7 +86,6 @@ public class Mangkad {
     }
     
     public static void gotoMain() {
-        DatabaseClass dc = new DatabaseClass("mangkad.db");
         DefaultListModel<KategoriDest> kategori = dc.getKategori();
         
         DefaultTableModel tempatWisata = new DefaultTableModel() {
@@ -118,7 +146,9 @@ public class Mangkad {
 
                     if (mouseEvent.getClickCount() == 2 && table.getSelectedRow() >= 0 && row >= 0) {
                         //JOptionPane.showMessageDialog(jMain, dw.getID());
+                        jMain.setCursor(Cursor.WAIT_CURSOR);
                         gotoDetails(jMain, dw);
+                        jMain.setCursor(Cursor.DEFAULT_CURSOR);
                     }
                 } catch(ArrayIndexOutOfBoundsException e) {
                     
@@ -135,12 +165,31 @@ public class Mangkad {
     
     public static void gotoDetails(JFrameMain jMain, DestWisata item) {
         JDialogDetails jDetails = new JDialogDetails(jMain, true, item);
-        JLabel lblDetails = jDetails.lblDetails;
+        JLabel lblDetails   = jDetails.lblDetails;
+        JTextArea txtReview = jDetails.txtReview;
+        JButton btnPlan     = jDetails.btnPlan;
         
         lblDetails.setText(item.getName());
+        txtReview.setText(!item.getDeskripsi().isEmpty() ? item.getDeskripsi() : txtReview.getText());
+        
+        if(usr==null) btnPlan.setVisible(false);
+                
+        btnPlan.addActionListener((ActionEvent e) -> {
+            gotoPlan(jDetails,item);
+        });
         
         jDetails.setLocationRelativeTo(jMain);
         jDetails.setVisible(true);
+
+        
+    }
+    
+    public static void gotoPlan(JDialog jMain, DestWisata item) {
+        JDialogPlanWisata jPlan = new JDialogPlanWisata(jMain, true, item);
+        
+        jPlan.setResizable(false);
+        jPlan.setLocationRelativeTo(jMain);
+        jPlan.setVisible(true);
     }
     
 }

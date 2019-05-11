@@ -33,9 +33,10 @@ public class DatabaseClass {
         
         createTable.add("CREATE TABLE IF NOT EXISTS USER("
                 + "USER_ID INTEGER PRIMARY KEY, "
-                + "USERNAME VARCHAR(20) NOT NULL, "
+                + "USERNAME VARCHAR(20) NOT NULL UNIQUE, "
                 + "PASSWORD VARCHAR(20) NOT NULL, "
                 + "CREATED_DATE DATE NOT NULL "
+                + "LAST_LOGIN DATE NOT NULL "
                 + ");");
         
         createTable.add("CREATE TABLE IF NOT EXISTS KATEGORI("
@@ -84,6 +85,28 @@ public class DatabaseClass {
         }
     }
     
+    public User login(String username, String password) {
+        ResultSet rs = null;
+        
+        try {
+            String selectSQL = "SELECT * FROM USER WHERE USERNAME = ?";
+            PreparedStatement preparedStatement = con1.prepareStatement(selectSQL);
+            preparedStatement.setString(1, username);
+            rs = preparedStatement.executeQuery();
+            
+            while(rs.next()) {
+                if(BCryptClass.checkpw(password, rs.getString("PASSWORD"))) {
+                    return new User(rs.getInt("USER_ID"),
+                                    rs.getString("USERNAME"));
+                }
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(DatabaseClass.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        return null;
+    }
+    
     public DefaultListModel<KategoriDest> getKategori(){
         DefaultListModel<KategoriDest> result = new DefaultListModel<>();
         ResultSet rs = null;
@@ -116,7 +139,8 @@ public class DatabaseClass {
                         rs.getLong("LATITUDE"),
                         rs.getLong("Longitude"),
                         getJumlahKunjungan(rs.getInt("DEST_ID")),
-                        ""
+                        "",
+                        rs.getString("DESKRIPSI_DEST")
                 ));
             }
          } catch(SQLException e) {

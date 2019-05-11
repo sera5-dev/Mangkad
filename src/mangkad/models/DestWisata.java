@@ -18,14 +18,20 @@ public class DestWisata {
     private int jumlah_kunjungan;
     private String kunjungan_terakhir;
     private final int id;
+    private final String deskripsi;
     
-    public DestWisata(int id, String name, long latitude, long longitude, int jml_kunjungan, String kunjungan_last) {
+    public DestWisata(int id, String name, long latitude, long longitude, int jml_kunjungan, String kunjungan_last, String deskripsi) {
         this.name = name;
         this.latitude = latitude;
         this.longitude = longitude;
         this.jumlah_kunjungan = jml_kunjungan;
         this.kunjungan_terakhir = kunjungan_last;
         this.id = id;
+        this.deskripsi = deskripsi;
+    }
+    
+    public String getDeskripsi() {
+        return this.deskripsi;
     }
     
     public int getID() {
