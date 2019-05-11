@@ -114,10 +114,11 @@ public class Mangkad {
                     int col = table.columnAtPoint(point);
                     int idx = kategori.getElementAt(listKategori.getSelectedIndex()).getID();
 
-                    DestWisata dw = dc.getDetailTempat(idx, row);
+                    DestWisata dw = dc.getDestWisata(idx, row);
 
                     if (mouseEvent.getClickCount() == 2 && table.getSelectedRow() >= 0 && row >= 0) {
-                        JOptionPane.showMessageDialog(jMain, dw.getID());
+                        //JOptionPane.showMessageDialog(jMain, dw.getID());
+                        gotoDetails(jMain, dw);
                     }
                 } catch(ArrayIndexOutOfBoundsException e) {
                     
@@ -130,6 +131,16 @@ public class Mangkad {
         
         jMain.setLocationRelativeTo(null);
         jMain.setVisible(true);
+    }
+    
+    public static void gotoDetails(JFrameMain jMain, DestWisata item) {
+        JDialogDetails jDetails = new JDialogDetails(jMain, true, item);
+        JLabel lblDetails = jDetails.lblDetails;
+        
+        lblDetails.setText(item.getName());
+        
+        jDetails.setLocationRelativeTo(jMain);
+        jDetails.setVisible(true);
     }
     
 }

@@ -126,7 +126,7 @@ public class DatabaseClass {
          return result;
     }
     
-    public DestWisata getDetailTempat(int kategori, int row) {
+    public DestWisata getDestWisata(int kategori, int row) {
         ArrayList<DestWisata> src = getDestWisata(kategori);
         
         return src.get(row);
