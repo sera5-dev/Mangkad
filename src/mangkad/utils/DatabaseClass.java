@@ -6,6 +6,7 @@
 package mangkad.utils;
 
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -104,14 +105,36 @@ public class DatabaseClass {
         ResultSet rs = null;
         
          try {
-            rs = con1.createStatement().executeQuery("SELECT * FROM KATEGORI");
-            while(rs.next()) {
-                
+            String selectSQL = "SELECT * FROM DEST_WISATA WHERE DEST_ID = ?";
+            PreparedStatement preparedStatement = con1.prepareStatement(selectSQL);
+            preparedStatement.setInt(1, idx);
+            rs = preparedStatement.executeQuery();
+            while (rs.next()) {
+                result.add(new DestWisata(
+                        rs.getInt("DEST_ID"),
+                        rs.getString("NAMA_DEST"),
+                        rs.getLong("LATITUDE"),
+                        rs.getLong("Longitude"),
+                        getJumlahKunjungan(rs.getInt("DEST_ID")),
+                        ""
+                ));
             }
          } catch(SQLException e) {
-             System.out.println(e.getSQLState());
+             System.out.println("Error: "+e.toString());
          }
          
          return result;
+    }
+    
+    public DestWisata getDetailTempat(int kategori, int row) {
+        ArrayList<DestWisata> src = getDestWisata(kategori);
+        
+        return src.get(row);
+    }
+    
+    public int getJumlahKunjungan(int idx) {
+        int result = 0;
+        
+        return result;
     }
 }

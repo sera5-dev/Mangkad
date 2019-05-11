@@ -5,7 +5,6 @@
  */
 package mangkad.models;
 
-import java.util.ArrayList;
 
 /**
  *
@@ -14,13 +13,46 @@ import java.util.ArrayList;
 public class DestWisata {
     
     private String name;
-    private ArrayList<TempatWisata> tempatWisata;
+    private long latitude;
+    private long longitude;
+    private int jumlah_kunjungan;
+    private String kunjungan_terakhir;
+    private final int id;
     
-    public DestWisata(String name) {
-        
+    public DestWisata(int id, String name, long latitude, long longitude, int jml_kunjungan, String kunjungan_last) {
+        this.name = name;
+        this.latitude = latitude;
+        this.longitude = longitude;
+        this.jumlah_kunjungan = jml_kunjungan;
+        this.kunjungan_terakhir = kunjungan_last;
+        this.id = id;
     }
     
-    public class TempatWisata {
-        
+    public int getID() {
+        return this.id;
+    }
+    
+    public String getName() {
+        return this.name;
+    }
+    
+    public long getLatitude() {
+        return this.latitude;
+    }
+    
+    public long getLongitude() {
+        return this.longitude;
+    }
+    
+    public int getJmlKunjungan() {
+        return this.jumlah_kunjungan;
+    }
+    
+    public String getKunjunganTerakhir() {
+        return this.kunjungan_terakhir;
+    }
+    
+    public void setJmlKunjungan(int i) {
+        this.jumlah_kunjungan += i;
     }
 }
