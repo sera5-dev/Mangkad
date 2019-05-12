@@ -10,6 +10,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -146,6 +147,10 @@ public class DatabaseClass {
                         rs.getString("DESKRIPSI_DEST")
                 ));
             }
+            
+            result.sort(new DestWisata.KunjunganComparator());
+            result.sort(new DestWisata.LastVisitComparator());
+            
          } catch(SQLException e) {
              System.out.println("Error: "+e.toString());
          }
@@ -185,8 +190,8 @@ public class DatabaseClass {
         return result;
     }
     
-    public String getLastVisit(int idx) {
-        String result = "";
+    public Date getLastVisit(int idx) {
+        Date result = null;
         ResultSet rs;
         
         try {
@@ -198,9 +203,9 @@ public class DatabaseClass {
             
             if(rs.next()) {
                 try {
-                    result = rs.getDate("LAST").toString();
+                    result = rs.getDate("LAST");
                 } catch(NullPointerException e) {
-                    return "";
+                    return null;
                 }
             }
             

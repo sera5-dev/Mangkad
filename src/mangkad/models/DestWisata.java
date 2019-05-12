@@ -5,22 +5,25 @@
  */
 package mangkad.models;
 
+import java.util.Comparator;
+import java.util.Date;
+
 
 /**
  *
  * @author user
  */
-public class DestWisata {
+public class DestWisata  {
     
     private String name;
     private long latitude;
     private long longitude;
-    private int jumlah_kunjungan;
-    private String kunjungan_terakhir;
+    private int jumlah_kunjungan = 0;
+    private Date kunjungan_terakhir = new Date(0);
     private final int id;
     private final String deskripsi;
     
-    public DestWisata(int id, String name, long latitude, long longitude, int jml_kunjungan, String kunjungan_last, String deskripsi) {
+    public DestWisata(int id, String name, long latitude, long longitude, int jml_kunjungan, Date kunjungan_last, String deskripsi) {
         this.name = name;
         this.latitude = latitude;
         this.longitude = longitude;
@@ -54,11 +57,30 @@ public class DestWisata {
         return this.jumlah_kunjungan;
     }
     
-    public String getKunjunganTerakhir() {
+    public Date getKunjunganTerakhir() {
         return this.kunjungan_terakhir;
     }
     
     public void setJmlKunjungan(int i) {
         this.jumlah_kunjungan += i;
+    }
+    
+    public static class KunjunganComparator implements Comparator<DestWisata> {
+
+        @Override
+        public int compare(DestWisata t, DestWisata t1) {
+            return t1.getJmlKunjungan() - t.getJmlKunjungan();
+        }
+        
+    }
+    
+    public static class LastVisitComparator implements Comparator<DestWisata> {
+
+        @Override
+        public int compare(DestWisata t, DestWisata t1) {
+            if(t.getKunjunganTerakhir()!=null&& t1.getKunjunganTerakhir()!=null) return t1.getKunjunganTerakhir().compareTo(t.kunjungan_terakhir);
+            else return new Date(0).compareTo(new Date(0));
+        }
+        
     }
 }

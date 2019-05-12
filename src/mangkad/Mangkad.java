@@ -48,6 +48,7 @@ public class Mangkad {
     static DatabaseClass dc;
     static JFrameMain jMain;
     static DefaultTableModel tempatWisata;
+    static DefaultListModel<KategoriDest> kategori;
 
     /**
      * @param args the command line arguments
@@ -96,7 +97,7 @@ public class Mangkad {
     }
     
     public static void gotoMain() {
-        DefaultListModel<KategoriDest> kategori = dc.getKategori();
+        kategori = dc.getKategori();
         
         tempatWisata = new DefaultTableModel() {
             @Override
@@ -173,6 +174,9 @@ public class Mangkad {
         JTextArea txtReview = jDetails.txtReview;
         JButton btnPlan     = jDetails.btnPlan;
         
+        txtReview.setLineWrap(true);
+        txtReview.setWrapStyleWord(true);
+        
         lblDetails.setText(item.getName());
         txtReview.setText(!item.getDeskripsi().isEmpty() ? item.getDeskripsi() : txtReview.getText());
         
@@ -205,7 +209,7 @@ public class Mangkad {
                     break;
                 default:
                     MessageUtils.showInfoDialog(jMain, "Data berhasil dimasukkan.");
-                    updateDestList(item.getID());
+                    updateDestList();
                     jPlan.dispose();
                     
             }
@@ -218,6 +222,16 @@ public class Mangkad {
     
     public static void updateDestList(int idx) {
         ArrayList<DestWisata> dw = dc.getDestWisata(idx);
+                
+        tempatWisata.setRowCount(0);
+
+        dw.forEach((item) -> {
+            tempatWisata.addRow(new Object[]{item.getName(),item.getJmlKunjungan(),item.getKunjunganTerakhir()});
+        });
+    }
+    
+    public static void updateDestList() {
+        ArrayList<DestWisata> dw = dc.getDestWisata(kategori.getElementAt(jMain.JKategori.getSelectedIndex()).getID());
                 
         tempatWisata.setRowCount(0);
 
