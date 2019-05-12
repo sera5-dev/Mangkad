@@ -38,10 +38,10 @@
                       </Group>
                       <EmptySpace max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" attributes="0">
-                          <Group type="102" alignment="1" attributes="0">
+                          <Group type="102" attributes="0">
                               <Component id="txtPassword" max="32767" attributes="0"/>
                               <EmptySpace max="-2" attributes="0"/>
-                              <Component id="btnViewPasword" min="-2" max="-2" attributes="0"/>
+                              <Component id="btnViewPasword" min="-2" pref="70" max="-2" attributes="0"/>
                           </Group>
                           <Component id="txtUsername" max="32767" attributes="0"/>
                       </Group>
@@ -123,7 +123,7 @@
     </Component>
     <Component class="javax.swing.JToggleButton" name="btnViewPasword">
       <Properties>
-        <Property name="text" type="java.lang.String" value="View Password"/>
+        <Property name="text" type="java.lang.String" value="View"/>
       </Properties>
       <AuxValues>
         <AuxValue name="JavaCodeGenerator_VariableModifier" type="java.lang.Integer" value="1"/>

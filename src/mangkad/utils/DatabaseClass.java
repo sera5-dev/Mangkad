@@ -10,9 +10,11 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.DefaultListModel;
+import javax.swing.JOptionPane;
 import mangkad.models.DestWisata;
 import mangkad.models.KategoriDest;
 
@@ -139,7 +141,7 @@ public class DatabaseClass {
                         rs.getLong("LATITUDE"),
                         rs.getLong("Longitude"),
                         getJumlahKunjungan(rs.getInt("DEST_ID")),
-                        "",
+                        getLastVisit(rs.getInt("DEST_ID")),
                         rs.getString("DESKRIPSI_DEST")
                 ));
             }
@@ -158,7 +160,67 @@ public class DatabaseClass {
     
     public int getJumlahKunjungan(int idx) {
         int result = 0;
+        ResultSet rs;
+        
+        try {
+            String query = "SELECT COUNT(*) FROM PLAN_WISATA "
+                    + "WHERE DEST_ID = ?";
+            PreparedStatement preparedStatement = con1.prepareStatement(query);
+            preparedStatement.setInt(1, idx);
+            rs = preparedStatement.executeQuery();
+            
+            rs.next();
+            result = rs.getInt(1); 
+            
+        } catch(SQLException e) {
+            System.out.println(e.toString());
+        }
         
         return result;
+    }
+    
+    public String getLastVisit(int idx) {
+        String result = "";
+        ResultSet rs;
+        
+        try {
+            String query = "SELECT MAX(TGL_KUNJUNGAN) FROM PLAN_WISATA "
+                    + "WHERE DEST_ID = ?";
+            PreparedStatement preparedStatement = con1.prepareStatement(query);
+            preparedStatement.setInt(1, idx);
+            rs = preparedStatement.executeQuery();
+            
+            rs.next();
+            result = rs.getDate(1).toString(); 
+            
+        } catch(SQLException e) {
+            System.out.println(e.toString());
+        }
+        
+        return result;
+    }
+    
+    public int insertPlan(DestWisata item, int user_id, Date date) {
+        int affected = 0;
+        
+        try {
+            String selectSQL = "INSERT INTO PLAN_WISATA "
+                             + "(PLAN_ID, DEST_ID, USER_ID, TGL_KUNJUNGAN, TGL_RENCANA_BUAT)"
+                             + "VALUES"
+                             + "(NULL, ?, ?, ?, DATE());";
+            
+            
+            PreparedStatement ps = con1.prepareStatement(selectSQL);
+            ps.setInt(1, item.getID());
+            ps.setInt(2, user_id);
+            ps.setDate(3, new java.sql.Date(date.getTime()));
+            
+            affected = ps.executeUpdate();
+            
+        } catch(SQLException e) {
+            affected = -1;
+        }
+        
+        return affected;
     }
 }

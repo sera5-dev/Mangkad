@@ -5,6 +5,7 @@
  */
 package mangkad;
 
+import com.toedter.calendar.JDateChooser;
 import java.awt.Color;
 import java.awt.Cursor;
 import java.awt.Graphics;
@@ -19,25 +20,22 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.util.ArrayList;
+import java.util.Date;
 import javax.swing.DefaultListModel;
 import javax.swing.JButton;
 import javax.swing.JDialog;
-import javax.swing.JEditorPane;
 import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
 import javax.swing.JTextArea;
-import javax.swing.JViewport;
 import javax.swing.event.ListSelectionEvent;
-import javax.swing.event.ListSelectionListener;
 import javax.swing.event.TableModelEvent;
-import javax.swing.event.TableModelListener;
 import javax.swing.table.DefaultTableModel;
 import mangkad.models.DestWisata;
 import mangkad.models.KategoriDest;
-import mangkad.utils.BCryptClass;
 import mangkad.utils.DatabaseClass;
+import mangkad.utils.MessageUtils;
 import mangkad.utils.User;
 
 /**
@@ -196,6 +194,25 @@ public class Mangkad {
     
     public static void gotoPlan(JDialog jMain, DestWisata item) {
         JDialogPlanWisata jPlan = new JDialogPlanWisata(jMain, true, item);
+        JDateChooser myDate = jPlan.jDatePilih;
+        JButton confirm     = jPlan.btnMakePlan;
+        
+        confirm.addActionListener((ActionEvent ae) -> {
+            Date d = myDate.getCalendar().getTime();
+            int insert = dc.insertPlan(item, usr.getUserID(), d);
+            switch(insert) {
+                case 0:
+                    MessageUtils.showErrorDialog(jMain, "Data tidak dapat dimasukkan.");
+                    break;
+                case -1:
+                    MessageUtils.showErrorDialog(jMain, "Data tidak dapat dimasukkan karena ada kesalahan teknis.");
+                    break;
+                default:
+                    MessageUtils.showInfoDialog(jMain, "Data berhasil dimasukkan.");
+                    jPlan.dispose();
+                    
+            }
+        });
         
         jPlan.setResizable(false);
         jPlan.setLocationRelativeTo(jMain);
