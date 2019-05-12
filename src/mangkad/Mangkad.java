@@ -19,6 +19,7 @@ import java.awt.event.ItemListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import javax.swing.DefaultListModel;
@@ -197,6 +198,8 @@ public class Mangkad {
         JDateChooser myDate = jPlan.jDatePilih;
         JButton confirm     = jPlan.btnMakePlan;
         
+        myDate.setMinSelectableDate(new Date());
+        
         confirm.addActionListener((ActionEvent ae) -> {
             Date d = myDate.getCalendar().getTime();
             int insert = dc.insertPlan(item, usr.getUserID(), d);
@@ -226,7 +229,14 @@ public class Mangkad {
         tempatWisata.setRowCount(0);
 
         dw.forEach((item) -> {
-            tempatWisata.addRow(new Object[]{item.getName(),item.getJmlKunjungan(),item.getKunjunganTerakhir()});
+            Object lastVisit = item.getKunjunganTerakhir();
+            if(lastVisit!=null) {
+                lastVisit = new SimpleDateFormat("dd MMMMM yyyy").format(lastVisit);
+            }
+            tempatWisata.addRow(new Object[]{item.getName(),
+                item.getJmlKunjungan(),
+                lastVisit
+            });
         });
     }
     
@@ -236,7 +246,14 @@ public class Mangkad {
         tempatWisata.setRowCount(0);
 
         dw.forEach((item) -> {
-            tempatWisata.addRow(new Object[]{item.getName(),item.getJmlKunjungan(),item.getKunjunganTerakhir()});
+            Object lastVisit = item.getKunjunganTerakhir();
+            if(lastVisit!=null) {
+                lastVisit = new SimpleDateFormat("dd MMMMM yyyy").format(lastVisit);
+            }
+            tempatWisata.addRow(new Object[]{item.getName(),
+                item.getJmlKunjungan(),
+                lastVisit
+            });
         });
     }
 }
