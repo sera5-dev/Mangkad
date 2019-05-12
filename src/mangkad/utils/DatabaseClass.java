@@ -140,8 +140,8 @@ public class DatabaseClass {
                 result.add(new DestWisata(
                         rs.getInt("DEST_ID"),
                         rs.getString("NAMA_DEST"),
-                        rs.getLong("LATITUDE"),
-                        rs.getLong("Longitude"),
+                        rs.getDouble("LATITUDE"),
+                        rs.getDouble("LONGITUDE"),
                         getJumlahKunjungan(rs.getInt("DEST_ID")),
                         getLastVisit(rs.getInt("DEST_ID")),
                         rs.getString("DESKRIPSI_DEST")

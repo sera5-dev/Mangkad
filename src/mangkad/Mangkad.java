@@ -8,6 +8,7 @@ package mangkad;
 import com.toedter.calendar.JDateChooser;
 import java.awt.Color;
 import java.awt.Cursor;
+import java.awt.Desktop;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.GridBagLayout;
@@ -19,9 +20,14 @@ import java.awt.event.ItemListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.io.IOException;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.DefaultListModel;
 import javax.swing.JButton;
 import javax.swing.JDialog;
@@ -174,9 +180,12 @@ public class Mangkad {
         JLabel lblDetails   = jDetails.lblDetails;
         JTextArea txtReview = jDetails.txtReview;
         JButton btnPlan     = jDetails.btnPlan;
+        JButton maps        = jDetails.btnViewLocation;
         
         txtReview.setLineWrap(true);
         txtReview.setWrapStyleWord(true);
+        
+        System.out.println("aa: "+item.getLocation());
         
         lblDetails.setText(item.getName());
         txtReview.setText(!item.getDeskripsi().isEmpty() ? item.getDeskripsi() : txtReview.getText());
@@ -185,6 +194,10 @@ public class Mangkad {
                 
         btnPlan.addActionListener((ActionEvent e) -> {
             gotoPlan(jDetails,item);
+        });
+        
+        maps.addActionListener((ActionEvent e) -> {
+            gotoMaps(item);
         });
         
         jDetails.setLocationRelativeTo(jMain);
@@ -221,6 +234,18 @@ public class Mangkad {
         jPlan.setResizable(false);
         jPlan.setLocationRelativeTo(jMain);
         jPlan.setVisible(true);
+    }
+    
+    public static void gotoMaps(DestWisata id) {
+        if (Desktop.isDesktopSupported() && Desktop.getDesktop().isSupported(Desktop.Action.BROWSE)) {
+            try {
+                Desktop.getDesktop().browse(new URI("https://www.google.com/maps/search/"
+                        +id.getLocation()
+                ));
+            } catch (URISyntaxException | IOException ex) {
+                Logger.getLogger(Mangkad.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
     }
     
     public static void updateDestList(int idx) {

@@ -16,14 +16,14 @@ import java.util.Date;
 public class DestWisata  {
     
     private String name;
-    private long latitude;
-    private long longitude;
+    private double latitude;
+    private double longitude;
     private int jumlah_kunjungan = 0;
     private Date kunjungan_terakhir = new Date(0);
     private final int id;
     private final String deskripsi;
     
-    public DestWisata(int id, String name, long latitude, long longitude, int jml_kunjungan, Date kunjungan_last, String deskripsi) {
+    public DestWisata(int id, String name, double latitude, double longitude, int jml_kunjungan, Date kunjungan_last, String deskripsi) {
         this.name = name;
         this.latitude = latitude;
         this.longitude = longitude;
@@ -45,12 +45,16 @@ public class DestWisata  {
         return this.name;
     }
     
-    public long getLatitude() {
+    public double getLatitude() {
         return this.latitude;
     }
     
-    public long getLongitude() {
+    public double getLongitude() {
         return this.longitude;
+    }
+    
+    public String getLocation() {
+        return String.format("%f,%f", this.latitude,this.longitude);
     }
     
     public int getJmlKunjungan() {
