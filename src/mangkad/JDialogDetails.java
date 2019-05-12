@@ -41,7 +41,6 @@ public class JDialogDetails extends javax.swing.JDialog {
         btnPlan = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         txtReview = new javax.swing.JTextArea();
-        btnReview = new javax.swing.JButton();
         btnViewLocation = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
@@ -62,8 +61,6 @@ public class JDialogDetails extends javax.swing.JDialog {
         txtReview.setText("Tidak ada tinjauan untuk tempat ini.");
         jScrollPane1.setViewportView(txtReview);
 
-        btnReview.setText("Tinjau Tempat Ini");
-
         btnViewLocation.setText("Lihat Lokasi");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -79,8 +76,7 @@ public class JDialogDetails extends javax.swing.JDialog {
                         .addComponent(btnViewLocation)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(btnPlan)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(btnReview))
+                        .addGap(0, 0, Short.MAX_VALUE))
                     .addComponent(jScrollPane1))
                 .addContainerGap())
         );
@@ -96,7 +92,6 @@ public class JDialogDetails extends javax.swing.JDialog {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnPlan)
-                    .addComponent(btnReview)
                     .addComponent(btnViewLocation))
                 .addContainerGap())
         );
@@ -111,7 +106,6 @@ public class JDialogDetails extends javax.swing.JDialog {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     public javax.swing.JButton btnPlan;
-    public javax.swing.JButton btnReview;
     public javax.swing.JButton btnViewLocation;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JSeparator jSeparator1;
