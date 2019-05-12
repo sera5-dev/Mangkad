@@ -46,6 +46,8 @@ public class Mangkad {
     
     static User usr;
     static DatabaseClass dc;
+    static JFrameMain jMain;
+    static DefaultTableModel tempatWisata;
 
     /**
      * @param args the command line arguments
@@ -96,8 +98,7 @@ public class Mangkad {
     public static void gotoMain() {
         DefaultListModel<KategoriDest> kategori = dc.getKategori();
         
-        DefaultTableModel tempatWisata = new DefaultTableModel() {
-
+        tempatWisata = new DefaultTableModel() {
             @Override
             public boolean isCellEditable(int i, int i1) {
                 return false; //To change body of generated methods, choose Tools | Templates.
@@ -117,7 +118,7 @@ public class Mangkad {
             hint.setVisible(model.getRowCount()==0);
         });
         
-        JFrameMain jMain = new JFrameMain();
+        jMain = new JFrameMain();
         JList listKategori  = jMain.JKategori;
         JTable listDest      = jMain.tableDestinasi;
         
@@ -126,16 +127,11 @@ public class Mangkad {
         listDest.add(hint);
 
         listKategori.addListSelectionListener((ListSelectionEvent arg0) -> {
-            if (!arg0.getValueIsAdjusting()) {
+            if(arg0.getValueIsAdjusting()) {
                 int idx = kategori.getElementAt(listKategori.getSelectedIndex()).getID();
                 
-                ArrayList<DestWisata> dw = dc.getDestWisata(idx);
                 
-                tempatWisata.setRowCount(0);
-                
-                dw.forEach((item) -> {
-                    tempatWisata.addRow(new Object[]{item.getName(),item.getJmlKunjungan(),item.getKunjunganTerakhir()});
-                });
+                updateDestList(idx);
             }
         });
         //java.lang.ArrayIndexOutOfBoundsException
@@ -209,6 +205,7 @@ public class Mangkad {
                     break;
                 default:
                     MessageUtils.showInfoDialog(jMain, "Data berhasil dimasukkan.");
+                    updateDestList(item.getID());
                     jPlan.dispose();
                     
             }
@@ -219,4 +216,13 @@ public class Mangkad {
         jPlan.setVisible(true);
     }
     
+    public static void updateDestList(int idx) {
+        ArrayList<DestWisata> dw = dc.getDestWisata(idx);
+                
+        tempatWisata.setRowCount(0);
+
+        dw.forEach((item) -> {
+            tempatWisata.addRow(new Object[]{item.getName(),item.getJmlKunjungan(),item.getKunjunganTerakhir()});
+        });
+    }
 }

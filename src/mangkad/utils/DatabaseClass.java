@@ -130,10 +130,11 @@ public class DatabaseClass {
         ResultSet rs = null;
         
          try {
-            String selectSQL = "SELECT * FROM DEST_WISATA WHERE DEST_ID = ?";
+            String selectSQL = "SELECT * FROM DEST_WISATA WHERE KATEGORI_ID = ?";
             PreparedStatement preparedStatement = con1.prepareStatement(selectSQL);
             preparedStatement.setInt(1, idx);
             rs = preparedStatement.executeQuery();
+            
             while (rs.next()) {
                 result.add(new DestWisata(
                         rs.getInt("DEST_ID"),
@@ -163,14 +164,19 @@ public class DatabaseClass {
         ResultSet rs;
         
         try {
-            String query = "SELECT COUNT(*) FROM PLAN_WISATA "
+            String query = "SELECT COUNT(*) AS JML FROM PLAN_WISATA "
                     + "WHERE DEST_ID = ?";
             PreparedStatement preparedStatement = con1.prepareStatement(query);
             preparedStatement.setInt(1, idx);
             rs = preparedStatement.executeQuery();
             
-            rs.next();
-            result = rs.getInt(1); 
+            if(rs.next()) {
+                try {
+                    result = rs.getInt("JML");
+                } catch(NullPointerException e) {
+                    return 0;
+                }
+            }
             
         } catch(SQLException e) {
             System.out.println(e.toString());
@@ -184,14 +190,19 @@ public class DatabaseClass {
         ResultSet rs;
         
         try {
-            String query = "SELECT MAX(TGL_KUNJUNGAN) FROM PLAN_WISATA "
+            String query = "SELECT MAX(TGL_KUNJUNGAN) AS LAST FROM PLAN_WISATA "
                     + "WHERE DEST_ID = ?";
             PreparedStatement preparedStatement = con1.prepareStatement(query);
             preparedStatement.setInt(1, idx);
             rs = preparedStatement.executeQuery();
             
-            rs.next();
-            result = rs.getDate(1).toString(); 
+            if(rs.next()) {
+                try {
+                    result = rs.getDate("LAST").toString();
+                } catch(NullPointerException e) {
+                    return "";
+                }
+            }
             
         } catch(SQLException e) {
             System.out.println(e.toString());
